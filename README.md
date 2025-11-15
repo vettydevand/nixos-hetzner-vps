@@ -1,218 +1,130 @@
 # 🚀 NixOS Hetzner VPS Template
 
 [![NixOS](https://img.shields.io/badge/NixOS-24.05-blue?logo=nixos&logoColor=white)](https://nixos.org)
-[![CI/CD](https://github.com/your-username/nixos-hetzner-vps/actions/workflows/ci-advanced.yml/badge.svg)](https://github.com/your-username/nixos-hetzner-vps/actions)
+[![CI/CD](https://github.com/vettydevand/nixos-hetzner-vps/actions/workflows/ci-advanced.yml/badge.svg)](https://github.com/vettydevand/nixos-hetzner-vps/actions)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Documentation](https://img.shields.io/badge/Documentation-Online-blue)](https://your-username.github.io/nixos-hetzner-vps)
-[![Discord](https://img.shields.io/discord/your-discord-id?label=Community&logo=discord)](https://discord.gg/your-invite)
+[![Documentation](https://img.shields.io/badge/Documentation-Online-blue)](https://github.com/vettydevand/nixos-hetzner-vps/tree/main/docs/bmad/documentation)
 
-**Production-ready NixOS deployment template for Hetzner VPS with ZFS + LUKS + Podman**
+**Template di deployment NixOS pronto per la produzione per VPS Hetzner con ZFS + LUKS + Podman**
 
-✅ **Battle-tested in production**  
-✅ **Fully automated installation**  
-✅ **Optimized for cloud environments**  
-✅ **Complete documentation included**  
-✅ **Modular architecture**  
-✅ **Professional documentation site**
+✅ **Testato in produzione**  
+✅ **Installazione completamente automatizzata**  
+✅ **Ottimizzato per ambienti cloud**  
+✅ **Documentazione completa inclusa**  
+✅ **Architettura modulare**  
+✅ **Sito di documentazione professionale**
 
-[![Demo Video](https://img.youtube.com/vi/demo-video-id/0.jpg)](https://youtu.be/demo-video-id)
+## 🌟 Caratteristiche
 
-## 🌟 Features
+### 🔒 Sicurezza Prima di Tutto
+- **Cifratura completa del disco**: Cifratura LUKS per tutti i dati a riposo
+- **Hardening di SSH**: Nessun login di root, autenticazione con password disabilitata
+- **Firewall di default**: Esposte solo le porte essenziali (22, 80, 443)
+- **Moduli di sicurezza**: Funzionalità di sicurezza indipendenti che possono essere abilitate/disabilitate
+- **Aggiornamenti regolari**: Facili aggiornamenti di sistema con la riproducibilità di NixOS
 
-### 🔒 Security First
-- **Full-disk encryption**: LUKS encryption for all data at rest
-- **SSH hardening**: No root login, password authentication disabled
-- **Firewall by default**: Only essential ports exposed (22, 80, 443)
-- **Security modules**: Independent security features that can be enabled/disabled
-- **Regular updates**: Easy system upgrades with NixOS reproducibility
+### ⚡ Ottimizzato per le Prestazioni
+- **Ottimizzazione di ZFS ARC**: Limitato a 1GB per prestazioni stabili del VPS
+- **Separazione dei dataset**: Dataset indipendenti per `/nix`, `/containers`, `/persist`
+- **Compressione abilitata**: Compressione LZ4 per l'efficienza dello storage
+- **Rilevamento hardware**: Ottimizzazione automatica per l'hardware Hetzner
+- **Profili di carico di lavoro**: Impostazioni ottimizzate per diversi casi d'uso
 
-### ⚡ Performance Optimized
-- **ZFS ARC tuning**: Limited to 1GB for stable VPS performance
-- **Dataset separation**: Independent datasets for `/nix`, `/containers`, `/persist`
-- **Compression enabled**: LZ4 compression for storage efficiency
-- **Hardware detection**: Automatic optimization for Hetzner hardware
-- **Workload profiles**: Optimized settings for different use cases
+### 🧩 Architettura Modulare
+- **Moduli atomici**: Ogni modulo è autonomo e testabile
+- **Composizione sull'ereditarietà**: Mescola e abbina i moduli come i LEGO
+- **Sistema di profili**: Profili pre-configurati per casi d'uso comuni
+- **Zero dipendenze**: I moduli non dipendono dallo stato interno degli altri
+- **Tutto dichiarativo**: Infrastruttura, sicurezza e runtime
 
-### 🧩 Modular Architecture
-- **Atomic modules**: Each module is self-contained and testable
-- **Composition over inheritance**: Mix and match modules like LEGO
-- **Profile system**: Pre-configured profiles for common use cases
-- **Zero dependencies**: Modules don't depend on each other's internal state
-- **Declarative everything**: Infrastructure, security, and runtime
+### 🐳 Pronto per i Container
+- **Podman rootless**: Runtime di container sicuro senza privilegi di root
+- **Integrazione con Systemd**: Gestione nativa dei servizi per i container
+- **Compatibile con Docker**: Livello di compatibilità con la CLI di Docker
+- **Storage dedicato**: Dataset ZFS isolato per i dati dei container
+- **Supporto per registry**: Configurazione del registry privato inclusa
 
-### 🐳 Container Ready
-- **Podman rootless**: Secure container runtime without root privileges
-- **Systemd integration**: Native service management for containers
-- **Docker-compatible**: Docker CLI compatibility layer
-- **Dedicated storage**: Isolated ZFS dataset for container data
-- **Registry support**: Private registry configuration included
-
-### 🔄 Flexible Deployment
-- **Rescue Mode**: Fully automated installation via Hetzner rescue system
-- **Live ISO**: Manual installation with full control and debugging
-- **Cloud-init**: Zero-touch deployment for infrastructure automation
-- **Template system**: Easy configuration through template files
-- **Interactive wizard**: Guided setup for beginners
+### 🔄 Deployment Flessibile
+- **Modalità Rescue**: Installazione completamente automatizzata tramite il sistema di rescue di Hetzner
+- **Live ISO**: Installazione manuale con pieno controllo e debugging
+- **Cloud-init**: Deployment zero-touch per l'automazione dell'infrastruttura
+- **Sistema di template**: Facile configurazione tramite file di template
+- **Wizard interattivo**: Setup guidato per i principianti
 
 ## 🚀 Quick Start
 
-### Using the Template
-[![Use this template](https://img.shields.io/badge/Use%20this%20template-2ea44f?logo=github&logoColor=white)](https://github.com/your-username/nixos-hetzner-vps/generate)
+### Usa questo Template
+[![Use this template](https://img.shields.io/badge/Use%20this%20template-2ea44f?logo=github&logoColor=white)](https://github.com/vettydevand/nixos-hetzner-vps/generate)
 
-### Interactive Installation (Recommended for Beginners)
+### Installazione Rapida (Utenti Avanzati)
 ```bash
-# Download the interactive installer
-curl -L https://raw.githubusercontent.com/your-username/nixos-hetzner-vps/main/scripts/setup/interactive-config.sh | bash
-```
-
-### Quick Installation (Advanced Users)
-```bash
-# 1. Clone the repository
-git clone https://github.com/your-username/nixos-hetzner-vps
+# 1. Clona il repository
+git clone https://github.com/vettydevand/nixos-hetzner-vps
 cd nixos-hetzner-vps
 
-# 2. Choose your profile
-cp templates/by-profile/webserver.template.nix flake.nix
-# Edit with your configuration
+# 2. Scegli il tuo profilo
+# (Opzionale) Copia un template di profilo, ad esempio per un webserver
+# cp templates/by-profile/webserver.template.nix flake.nix
+# Modificalo con la tua configurazione
 
-# 3. Run the quick installer
+# 3. Esegui l'installer rapido
 bash scripts/setup/quick-install.sh
 ```
 
-## 📚 Documentation
+## 📚 Documentazione
 
-### Professional Documentation Site
-[https://your-username.github.io/nixos-hetzner-vps](https://your-username.github.io/nixos-hetzner-vps)
+La documentazione completa si trova nella directory `docs/bmad/documentation`.
 
-### Documentation Structure
-- **[Getting Started](docs/beginner/getting-started.md)** - For beginners
-- **[Architecture](docs/architecture/overview.md)** - Technical deep dive
-- **[Modules](docs/modules/base.md)** - Module reference
-- **[Profiles](docs/profiles/webserver.md)** - Profile guides
-- **[Advanced](docs/advanced/configuration.md)** - Expert topics
-- **[Reference](docs/reference/api.md)** - API and options
-- **[Examples](docs/examples/simple-webserver.md)** - Practical examples
+- **[Panoramica del Progetto](./docs/bmad/documentation/project-overview.md)**
+- **[Architettura](./docs/bmad/documentation/architecture.md)**
+- **[Profili del Server](./docs/bmad/documentation/profiles.md)**
+- **[Guida allo Sviluppo](./docs/bmad/documentation/development-guide.md)**
 
-### Community Resources
-- [Discord Community](https://discord.gg/your-invite) - Real-time support and discussions
-- [GitHub Discussions](https://github.com/your-username/nixos-hetzner-vps/discussions) - Q&A and feature requests
-- [NixOS Wiki](https://nixos.wiki) - General NixOS knowledge base
+### Risorse della Community
+- [GitHub Discussions](https://github.com/vettydevand/nixos-hetzner-vps/discussions) - Domande e risposte e richieste di funzionalità
+- [NixOS Wiki](https://nixos.wiki) - Base di conoscenza generale di NixOS
 
-## 🏗️ Architecture Overview
+## 🏗️ Panoramica dell'Architettura
 
-### Modular Design
+### Design Modulare
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                       NixOS Configuration                       │
+│                       Configurazione NixOS                      │
 ├─────────────────┬─────────────────┬─────────────────────────────┤
-│   Base Layer    │ Security Layer  │     Service Layer           │
+│   Livello Base  │ Livello Sicurezza │     Livello Servizi         │
 ├─────────────────┼─────────────────┼─────────────────────────────┤
-│ • Hardware      │ • LUKS          │ • Web Servers               │
-│ • Boot Loader   │ • Firewall      │ • Databases                 │
-│ • Users         │ • SSH           │ • Cache Systems             │
-│ • Networking    │ • Hardening     │ • Monitoring                │
+│ • Hardware      │ • LUKS          │ • Server Web                │
+│ • Boot Loader   │ • Firewall      │ • Database                  │
+│ • Utenti        │ • SSH           │ • Sistemi di Cache          │
+│ • Networking    │ • Hardening     │ • Monitoraggio              │
 ├─────────────────┼─────────────────┼─────────────────────────────┤
-│    Storage Layer (ZFS)                                          │
+│    Livello Storage (ZFS)                                        │
 ├─────────────────────────────────────────────────────────────────┤
-│                  Hardware (Hetzner VPS)                         │
+│                  Hardware (VPS Hetzner)                         │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### Module Interface Specification
-Every module implements:
-1. **Options Interface**: Clear, documented options with defaults
-2. **Configuration Interface**: Pure functional transformation
-3. **Documentation Interface**: Description, examples, security considerations
-4. **Dependency Interface**: Explicit dependencies and version compatibility
+## 🤝 Contribuire
 
-## 📊 Performance Benchmarks
+Diamo il benvenuto ai contributi! Per favore leggi la nostra guida [CONTRIBUTING.md](CONTRIBUTING.md) per iniziare.
 
-### CPX21 (4 vCPU, 8GB RAM) Results
-| Metric | Before Optimization | After Optimization | Improvement |
-|--------|---------------------|---------------------|-------------|
-| Boot Time | 45s | 23s | 49% faster |
-| Memory Usage | 6.2GB | 3.8GB | 39% less |
-| I/O Performance | 450 IOPS | 1200 IOPS | 167% faster |
-| Container Start | 8s | 3s | 63% faster |
+### Modi per Contribuire
+- 🐛 Segnala bug e problemi
+- 📝 Migliora la documentazione
+- 💻 Invia pull request per nuove funzionalità
+- 🌐 Traduci la documentazione in altre lingue
 
-*Tested with standard web application workload*
+## 🛡️ Sicurezza
 
-## 🤝 Contributing
+La sicurezza è la nostra massima priorità. Per favore, consulta la nostra policy [SECURITY.md](SECURITY.md) per segnalare vulnerabilità.
 
-We welcome contributions! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) guide to get started.
+## 🙏 Ringraziamenti
 
-### Ways to Contribute
-- 🐛 Report bugs and issues
-- 📝 Improve documentation
-- 💻 Submit pull requests for new features
-- 🌐 Translate documentation to other languages
-- 🎥 Create tutorial videos and guides
+- [Community NixOS](https://nixos.org/community.html) per gli strumenti e il supporto straordinari
+- [Hetzner](https://hetzner.com) per l'eccellente infrastruttura VPS
+- Il team di [ZFS on Linux](https://zfsonlinux.org) per il robusto filesystem
+- Tutti i contributori che hanno aiutato a migliorare questo template
 
-### Current Priorities
-- [ ] Multi-cloud provider support (AWS, DigitalOcean)
-- [ ] Terraform module integration
-- [ ] Kubernetes deployment examples
-- [ ] Enhanced monitoring dashboards
+## 📜 Licenza
 
-## 🛡️ Security
-
-Security is our top priority. Please review our [SECURITY.md](SECURITY.md) policy for reporting vulnerabilities.
-
-### Security Best Practices
-- Always verify script signatures before execution
-- Use strong, unique passphrases for LUKS encryption
-- Regularly update your system with `nixos-rebuild switch --upgrade`
-- Enable ZFS snapshots and maintain offsite backups
-
-## 💖 Support
-
-This project is maintained by [@your-username](https://github.com/your-username). If you find this template useful, please consider:
-
-- ⭐ **Starring this repository** on GitHub
-- 💬 **Sharing** it with your colleagues and community
-- 💰 **Sponsoring** development via [GitHub Sponsors](https://github.com/sponsors/your-username) or [.github/FUNDING.yml](.github/FUNDING.yml)
-- 📝 **Contributing** documentation improvements or bug fixes
-
-### Funding Goals
-- **$50/month**: Monthly community office hours
-- **$200/month**: Dedicated testing infrastructure
-- **$500/month**: Professional documentation and video tutorials
-
-## 🚧 Roadmap
-
-### ✅ v1.0 (Current)
-- Core installation with LUKS+ZFS
-- Podman rootless setup
-- Basic monitoring
-- Modular architecture
-- Professional documentation
-
-### 🚧 v1.1 (Q1 2026)
-- Automated backup scripts
-- Prometheus/Grafana dashboards
-- Multi-disk ZFS support
-- Performance benchmarking
-
-### 🎯 v2.0 (Q2 2026)
-- Terraform module integration
-- Kubernetes on NixOS support
-- Multi-cloud provider support
-- Machine learning-based optimization
-
-## 🙏 Acknowledgments
-
-- [NixOS Community](https://nixos.org/community.html) for amazing tools and support
-- [Hetzner](https://hetzner.com) for excellent VPS infrastructure
-- [ZFS on Linux](https://zfsonlinux.org) team for robust filesystem
-- All contributors who have helped improve this template
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-**🚀 Ready to deploy production-grade NixOS on Hetzner? Get started today!**
-
-[![Deploy to Hetzner](https://img.shields.io/badge/Deploy%20to-Hetzner-1f6feb?logo=hetzner&logoColor=white)](https://console.hetzner.cloud/)
-[![Fork on GitHub](https://img.shields.io/badge/Fork%20on-GitHub-181717?logo=github&logoColor=white)](https://github.com/your-username/nixos-hetzner-vps/fork)
+Questo progetto è sotto licenza MIT - vedi il file [LICENSE](LICENSE) per i dettagli.
