@@ -1,77 +1,56 @@
 # Security Policy
 
-## 🛡️ Supported Versions
-We provide security updates for the latest stable release and the current development branch.
+La sicurezza di questo progetto è una priorità assoluta. Apprezziamo i tuoi sforzi per divulgare responsabilmente le tue scoperte e faremo ogni sforzo per affrontare tutti i problemi segnalati.
 
-| Version | Supported          |
-|---------|--------------------|
-| 1.x     | ✅ Yes             |
-| < 1.0   | ❌ No              |
+## 🛡️ Versioni Supportate
 
-## 🚨 Reporting a Vulnerability
+Gli aggiornamenti di sicurezza vengono forniti per l'ultima versione sul branch `main`. Ti consigliamo di utilizzare sempre il commit più recente.
 
-### **Do not report security vulnerabilities through public GitHub issues.**
+| Versione | Supportato |
+| :--- | :--- |
+| ultimo `main` | ✅ Sì |
+| < ultimo `main` | ❌ No |
 
-Instead, please report them to security@your-email.com with the subject line "Security Vulnerability Report - nixos-hetzner-vps".
+## 🚨 Segnalazione di una Vulnerabilità
 
-### What to include in your report:
-- Type of vulnerability (e.g., RCE, privilege escalation, data leak)
-- Affected components (script, module, configuration)
-- Steps to reproduce (if possible)
-- Potential impact
-- Suggested fix (if you have one)
+**Per favore, non segnalare vulnerabilità di sicurezza tramite le issue pubbliche di GitHub.**
 
-### Response Timeline:
-- Initial acknowledgment within 24 hours
-- Detailed assessment within 3 business days
-- Patch development timeline provided within 5 business days
-- Critical vulnerabilities patched within 7 days
+Per garantire la sicurezza dei nostri utenti, ti chiediamo di segnalare le vulnerabilità in privato. Questo progetto ha abilitato la funzione di segnalazione privata delle vulnerabilità di GitHub.
 
-## 🔒 Security Best Practices
+Per favore, segnala le vulnerabilità di sicurezza **andando alla scheda "Security" del nostro repository GitHub** e cliccando su "Report a vulnerability".
 
-### For Users:
-- Always verify script signatures before execution
-- Use strong, unique passphrases for LUKS encryption
-- Keep your system updated with `nixos-rebuild switch --upgrade`
-- Regularly audit your SSH keys and firewall rules
-- Enable ZFS snapshots and offsite backups
+### Cosa includere nella tua segnalazione:
 
-### For Contributors:
-- Never commit secrets or credentials to the repository
-- Use environment variables for sensitive data in tests
-- Validate all user inputs in scripts
-- Follow principle of least privilege in configurations
-- Document security implications of changes
+- Una descrizione chiara della vulnerabilità.
+- Il componente o i file interessati.
+- I passaggi per riprodurre la vulnerabilità (se possibile).
+- L'impatto potenziale della vulnerabilità.
+- Una correzione o mitigazione suggerita (se ne hai una).
 
-## 🔄 Disclosure Process
+Faremo del nostro meglio per fornire un riconoscimento iniziale entro 48 ore e tenerti aggiornato sullo stato di avanzamento di una correzione.
 
-1. **Report received** - We acknowledge receipt
-2. **Assessment** - Security team evaluates impact and severity
-3. **Patch development** - Fix is developed internally
-4. **Testing** - Patch is tested thoroughly
-5. **Release** - Security update is released with CVE assignment if applicable
-6. **Disclosure** - Advisory published with details and mitigation steps
+## 🔒 Best Practice di Sicurezza
 
-## 📊 Security Metrics
+### Per gli Utenti
 
-We track the following security metrics:
-- Time to patch critical vulnerabilities
-- Number of security advisories per quarter
-- Security test coverage percentage
-- Dependency vulnerability scan results
+- Usa passphrase forti e uniche per la crittografia LUKS.
+- Mantieni il tuo sistema aggiornato regolarmente scaricando le ultime modifiche da `main` ed eseguendo `nixos-rebuild switch`.
+- Controlla regolarmente le tue chiavi SSH e le regole del firewall.
+- Abilita gli snapshot ZFS e mantieni backup esterni.
 
-## 🤝 Security Partnerships
+### Per i Contributori
 
-We work with:
-- NixOS Security Team for upstream vulnerabilities
-- Hetzner Security Team for infrastructure-related issues
-- Open Source Security Foundation (OSSF) for best practices
+- Non committare mai segreti o credenziali nel repository.
+- Usa la shell di sviluppo Nix fornita (`nix develop`) per assicurarti di utilizzare versioni testate degli strumenti.
+- Convalida tutti gli input dell'utente in qualsiasi script che contribuisci.
+- Segui il principio del privilegio minimo nelle configurazioni.
+- Documenta eventuali implicazioni per la sicurezza delle tue modifiche nella tua pull request.
 
-## 📞 Contact Information
+## 📢 Processo di Divulgazione
 
-**Security Team**: security@your-email.com  
-**PGP Key**: [Link to your PGP key]  
-**Security Advisories**: [Link to security advisories page]
+Una volta segnalata una vulnerabilità, noi:
+1.  Confermeremo la vulnerabilità e ne determineremo l'impatto.
+2.  Svilupperemo una patch internamente.
+3.  Rilasceremo la patch e, se necessario, emetteremo un avviso di sicurezza.
 
----
-This policy is reviewed and updated quarterly. Last updated: November 15, 2025
+Ci impegniamo a gestire tutte le segnalazioni in modo tempestivo e professionale.
