@@ -1,7 +1,7 @@
 # templates/by-profile/webserver.template.nix
 # Template per il profilo webserver
 {
-  description = "NixOS Configuration for your-hostname";
+  description = "NixOS Configuration for ${HOSTNAME}";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
@@ -11,21 +11,21 @@
   outputs = { self, nixpkgs, nixos-hardware, ... }:
   {
     nixosConfigurations = {
-      "your-hostname" = nixpkgs.lib.nixosSystem {
+      "${HOSTNAME}" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./profiles/webserver.nix
           nixos-hardware.nixosModules.hetzner-cloud
 
           ({
-            networking.hostName = "your-hostname";
-            time.timeZone = "your-timezone";
-            users.users.root.openssh.authorizedKeys.keys = [ "your-ssh-key" ];
+            networking.hostName = "${HOSTNAME}";
+            time.timeZone = "${TIMEZONE}";
+            users.users.root.openssh.authorizedKeys.keys = [ "${SSH_KEY_CONTENT}" ];
             users.users.admin = {
-              name = "your-username";
+              name = "${ADMIN_USERNAME}";
               isNormalUser = true;
               extraGroups = [ "wheel" ];
-              openssh.authorizedKeys.keys = [ "your-ssh-key" ];
+              openssh.authorizedKeys.keys = [ "${SSH_KEY_CONTENT}" ];
             };
           })
         ];

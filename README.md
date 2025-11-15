@@ -3,7 +3,7 @@
 [![NixOS](https://img.shields.io/badge/NixOS-24.05-blue?logo=nixos&logoColor=white)](https://nixos.org)
 [![CI/CD](https://github.com/vettydevand/nixos-hetzner-vps/actions/workflows/ci-advanced.yml/badge.svg)](https://github.com/vettydevand/nixos-hetzner-vps/actions)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Documentation](https://img.shields.io/badge/Documentation-Online-blue)](https://github.com/vettydevand/nixos-hetzner-vps/tree/main/docs/bmad/documentation)
+[![Documentation](https://img.shields.io/badge/Documentation-Online-blue)](https://vettydevand.github.io/nixos-hetzner-vps/)
 
 **Template di deployment NixOS pronto per la produzione per VPS Hetzner con ZFS + LUKS + Podman**
 
@@ -73,12 +73,12 @@ bash scripts/setup/quick-install.sh
 
 ## 📚 Documentazione
 
-La documentazione completa si trova nella directory `docs/bmad/documentation`.
+Visita il nostro **[sito di documentazione completo](https://vettydevand.github.io/nixos-hetzner-vps/)** per guide dettagliate, riferimenti e tutorial.
 
-- **[Panoramica del Progetto](./docs/bmad/documentation/project-overview.md)**
-- **[Architettura](./docs/bmad/documentation/architecture.md)**
-- **[Profili del Server](./docs/bmad/documentation/profiles.md)**
-- **[Guida allo Sviluppo](./docs/bmad/documentation/development-guide.md)**
+- **[🚀 Getting Started](https://vettydevand.github.io/nixos-hetzner-vps/beginner/getting-started/)**: La tua guida per iniziare in 5 minuti.
+- **[🏗️ Architecture](https://vettydevand.github.io/nixos-hetzner-vps/architecture/overview/)**: Un'analisi approfondita del design modulare.
+- **[🧩 Modules](https://vettydevand.github.io/nixos-hetzner-vps/modules/base/)**: Riferimento per tutti i moduli disponibili.
+- **[👤 Profiles](https://vettydevand.github.io/nixos-hetzner-vps/profiles/vps/)**: Guide per i profili di server pre-configurati.
 
 ### Risorse della Community
 - [GitHub Discussions](https://github.com/vettydevand/nixos-hetzner-vps/discussions) - Domande e risposte e richieste di funzionalità

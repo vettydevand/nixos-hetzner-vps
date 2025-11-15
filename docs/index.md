@@ -10,9 +10,8 @@ hide:
 ### Production-ready NixOS deployment for Hetzner Cloud
 
 [![NixOS](https://img.shields.io/badge/NixOS-24.05-blue?logo=nixos&logoColor=white)](https://nixos.org)
-[![CI/CD](https://github.com/your-username/nixos-hetzner-vps/actions/workflows/ci-advanced.yml/badge.svg)](https://github.com/your-username/nixos-hetzner-vps/actions)
+[![CI/CD](https://github.com/vettydevand/nixos-hetzner-vps/actions/workflows/ci-advanced.yml/badge.svg)](https://github.com/vettydevand/nixos-hetzner-vps/actions)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Discord](https://img.shields.io/discord/your-discord-id?label=Community&logo=discord)](https://discord.gg/your-invite)
 
 <div class="grid cards" markdown>
 
@@ -143,8 +142,7 @@ bash scripts/setup/quick-install.sh
 
 Join our active community:
 
-- [:fontawesome-brands-discord: Discord](https://discord.gg/your-invite) - Real-time support
-- [:fontawesome-brands-github: GitHub Discussions](https://github.com/your-username/nixos-hetzner-vps/discussions) - Q&A
+- [:fontawesome-brands-github: GitHub Discussions](https://github.com/vettydevand/nixos-hetzner-vps/discussions) - Q&A
 - [:fontawesome-brands-reddit: Reddit r/NixOS](https://www.reddit.com/r/NixOS/) - Community
 
 [:octicons-people-16: Community Guide](contributing/community.md)

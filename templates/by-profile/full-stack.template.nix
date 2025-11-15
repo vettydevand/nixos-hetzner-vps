@@ -1,5 +1,5 @@
-# templates/by-profile/container-host.template.nix
-# Template per il profilo container-host
+# templates/by-profile/full-stack.template.nix
+# Template per il profilo full-stack
 {
   description = "NixOS Configuration for ${HOSTNAME}";
 
@@ -14,7 +14,7 @@
       "${HOSTNAME}" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./profiles/container-host.nix
+          ./profiles/full-stack.nix
           nixos-hardware.nixosModules.hetzner-cloud
 
           ({
@@ -24,7 +24,7 @@
             users.users.admin = {
               name = "${ADMIN_USERNAME}";
               isNormalUser = true;
-              extraGroups = [ "wheel" "docker" ]; # Aggiunto gruppo docker
+              extraGroups = [ "wheel" "docker" ];
               openssh.authorizedKeys.keys = [ "${SSH_KEY_CONTENT}" ];
             };
           })

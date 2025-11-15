@@ -1,53 +1,35 @@
-# To learn more about how to use Nix to configure your environment
-# see: https://developers.google.com/idx/guides/customize-idx-env
-{ pkgs, ... }: {
-  # Which nixpkgs channel to use.
-  channel = "stable-24.05"; # or "unstable"
-  # Use https://search.nixos.org/packages to find packages
-  packages = [
-    # pkgs.go
-    # pkgs.python311
-    # pkgs.python311Packages.pip
-    pkgs.nodejs_20
-    # pkgs.nodePackages.nodemon
+
+{ ... }: {
+  # Importa la devShell dal file flake.nix.
+  # Questo assicura che l'ambiente dell'IDE sia coerente con quello
+  # che si otterrebbe eseguendo `nix develop` nel terminale.
+  imports = [
+    ./../flake.nix
   ];
-  # Sets environment variables in the workspace
-  env = {};
+
+  # Usa la devShell definita nella flake.
+  devShell = "devShells.x86_64-linux.default";
+
   idx = {
-    # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
+    # Estensioni di VS Code da installare.
     extensions = [
-      # "vscodevim.vim"
       "google.gemini-cli-vscode-ide-companion"
+      # Estensioni specifiche per Nix per una migliore esperienza di sviluppo.
+      "jnoortheen.nix-ide"
+      "bbenoist.nix"
     ];
-    # Enable previews
-    previews = {
-      enable = true;
-      previews = {
-        # web = {
-        #   # Example: run "npm run dev" with PORT set to IDX's defined port for previews,
-        #   # and show it in IDX's web preview panel
-        #   command = ["npm" "run" "dev"];
-        #   manager = "web";
-        #   env = {
-        #     # Environment variables to set for your server
-        #     PORT = "$PORT";
-        #   };
-        # };
-      };
-    };
-    # Workspace lifecycle hooks
+
+    # Hook del ciclo di vita dello spazio di lavoro.
     workspace = {
-      # Runs when a workspace is first created
+      # Viene eseguito quando uno spazio di lavoro viene creato per la prima volta.
       onCreate = {
-        # Example: install JS dependencies from NPM
-        # npm-install = "npm install";
-        # Open editors for the following files by default, if they exist:
-        default.openFiles = [ ".idx/dev.nix" "README.md" ];
-      };
-      # Runs when the workspace is (re)started
-      onStart = {
-        # Example: start a background task to watch and re-build backend code
-        # watch-backend = "npm run watch-backend";
+        # Apri questi file per impostazione predefinita per i nuovi utenti.
+        default.openFiles = [
+          "README.md"
+          "flake.nix"
+          ".idx/dev.nix"
+          "profiles/webserver.nix"
+        ];
       };
     };
   };
