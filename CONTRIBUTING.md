@@ -1,87 +1,121 @@
-# Contributing to NixOS Hetzner VPS Template
+# Contribuire a NixOS Hetzner VPS Template
 
-Thank you for your interest in contributing to this project! We welcome contributions from everyone, regardless of experience level.
+Grazie per il tuo interesse nel contribuire a questo progetto! Diamo il benvenuto a contributi da parte di tutti, indipendentemente dal livello di esperienza.
 
-## 🤝 How to Contribute
+## 🤝 Come Contribuire
 
-### 1. Reporting Issues
-- Check existing issues first to avoid duplicates
-- Use the [bug report template](.github/ISSUE_TEMPLATE/bug_report.md) for bugs
-- Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.md) for new features
-- Include detailed reproduction steps for bugs
+### Cerca un Compito
 
-### 2. Pull Requests
-1. Fork the repository
-2. Create a new branch: `git checkout -b feature/your-feature-name`
-3. Make your changes and commit them with descriptive messages
-4. Push to your fork: `git push origin feature/your-feature-name`
-5. Create a Pull Request
+- **Segnalazione di Problemi:** Controlla prima le issue esistenti per evitare duplicati. Usa il [template per le segnalazioni di bug](.github/ISSUE_TEMPLATE/bug_report.md) per i bug e il [template per le richieste di funzionalità](.github/ISSUE_TEMPLATE/feature_request.md) per le nuove funzionalità. Includi passaggi dettagliati per riprodurre i bug.
+- **Per i Primi Contributi:** Se sei nuovo nel progetto, cerca le issue con l'etichetta ["good first issue"](https://github.com/vettydevand/nixos-hetzner-vps/labels/good%20first%20issue). Sono un ottimo modo per iniziare.
 
-### 3. Development Workflow
+### Flusso di Lavoro per le Pull Request
 
-#### Setup
+1.  **Fork e Clona:** Esegui il fork del repository e clonalo in locale.
+2.  **Crea un Nuovo Branch:** `git checkout -b feature/il-tuo-nome-funzionalita`
+3.  **Apporta le Modifiche:** Esegui le modifiche e committale con messaggi descrittivi.
+4.  **Push sul Tuo Fork:** `git push origin feature/il-tuo-nome-funzionalita`
+5.  **Crea una Pull Request:** Apri una pull request verso il branch `main` del repository originale, utilizzando il nostro [template per le pull request](.github/PULL_REQUEST_TEMPLATE.md).
+
+## ⚙️ Flusso di Lavoro di Sviluppo
+
+### Setup dell'Ambiente
+
+Questo progetto usa un **ambiente di sviluppo Nix** per garantire che tutti i collaboratori utilizzino le stesse versioni degli strumenti.
+
+1.  **Entra nella Shell di Sviluppo:** Dopo aver clonato il repository, esegui questo comando per avviare una shell con tutti gli strumenti necessari (come `nixpkgs-fmt`, `shellcheck`, etc.):
+    ```bash
+    nix develop
+    ```
+2.  **Sviluppa:** Ora sei pronto per iniziare a sviluppare!
+
+### Testare le Modifiche
+
+Prima di inviare una pull request, per favore testa le tue modifiche:
+
 ```bash
-git clone https://github.com/your-username/nixos-hetzner-vps
-cd nixos-hetzner-vps
-```
-
-#### Testing Changes
-Before submitting PRs, please test your changes:
-
-```bash
-# Test Nix syntax
+# Formatta e controlla la sintassi di Nix
 nix flake check
 
-# Test shell scripts
+# Controlla gli script di shell
 shellcheck scripts/*.sh
 
-# Test in VM (requires KVM)
+# Esegui i test in una VM (richiede KVM)
 nix run .#test-vm
 ```
 
-### 4. Code Style Guidelines
+## ✍️ Linee Guida sullo Stile del Codice
 
-#### Nix Code
-- Use 2-space indentation
-- Keep lines under 100 characters
-- Use descriptive variable names
-- Document complex functions
-- Follow Nixpkgs style guide
+### Codice Nix
 
-#### Shell Scripts
-- Use `set -euo pipefail` at the top
-- Add error handling with `trap`
-- Use functions for reusable code
-- Add comments for complex logic
-- Validate inputs and dependencies
+- **Formattazione:** Usa `nixpkgs-fmt` per formattare automaticamente il tuo codice.
+  ```bash
+  nixpkgs-fmt .
+  ```
+- **Stile:** Segui le linee guida di stile di Nixpkgs, mantieni le righe sotto i 100 caratteri e usa nomi di variabili descrittivi.
+- **Documentazione:** Documenta le funzioni complesse.
 
-#### Documentation
-- Write in clear, concise English
-- Use Markdown formatting consistently
-- Include code examples where relevant
-- Keep documentation up-to-date with code changes
+### Script di Shell
 
-### 5. Pull Request Requirements
-- All tests must pass
-- Documentation must be updated for new features
-- CHANGELOG.md must be updated
-- No merge conflicts with main branch
-- Code review from at least one maintainer
+- Usa `set -euo pipefail` all'inizio degli script.
+- Aggiungi la gestione degli errori con `trap`.
+- Usa funzioni per il codice riutilizzabile.
 
-## 🚀 Release Process
-- Releases are tagged with semantic versioning (vX.Y.Z)
-- CHANGELOG.md is updated with each release
-- GitHub Releases are created with detailed notes
-- Docker images are built and pushed to GHCR
+### Documentazione
 
-## 🤔 Questions?
-If you have questions about contributing:
-- Open a GitHub Discussion
-- Join our Discord/Matrix channel (link in README)
-- Comment on relevant issues
+- Scrivi in un inglese chiaro e conciso.
+- Usa la formattazione Markdown in modo consistente.
+- Includi esempi di codice dove rilevante.
 
-## 🙏 Thank You!
-Your contributions help make this project better for everyone. We appreciate your time and effort!
+## 🧱 Guida al Contributo di Moduli
+
+I moduli sono la spina dorsale di questo progetto. Ecco come aggiungerne uno nuovo.
+
+### Struttura di un Modulo
+
+1.  **Posizionamento:** I nuovi moduli dovrebbero essere inseriti in una sottodirectory appropriata all'interno di `modules/` (es. `modules/services/web/nuovo-servizio.nix`).
+2.  **Struttura del File:** Un modulo tipico ha questa struttura:
+
+    ```nix
+    { config, lib, pkgs, ... }:
+
+    with lib;
+
+    let
+      cfg = config.services.nuovo-servizio;
+    in
+    {
+      options.services.nuovo-servizio = {
+        enable = mkEnableOption "Abilita il nuovo servizio";
+        # Altre opzioni qui...
+      };
+
+      config = mkIf cfg.enable {
+        # La tua configurazione qui...
+        environment.systemPackages = [ pkgs.nuovo-pacchetto ];
+      };
+    }
+    ```
+
+### Esporre le Opzioni
+
+- Usa `mkEnableOption` per le opzioni booleane `enable`.
+- Fornisci descrizioni chiare per tutte le opzioni.
+- Usa `mkIf cfg.enable` per assicurarti che la tua configurazione venga applicata solo quando il modulo è abilitato.
+
+## ✅ Requisiti per le Pull Request
+
+- Tutti i test devono passare.
+- La documentazione deve essere aggiornata per le nuove funzionalità.
+- Il file `CHANGELOG.md` deve essere aggiornato.
+- Nessun conflitto di merge con il branch `main`.
+- Revisione del codice da parte di almeno un maintainer.
+
+## 🚀 Processo di Rilascio
+
+- I rilasci sono etichettati con versionamento semantico (vX.Y.Z).
+- Il `CHANGELOG.md` viene aggiornato ad ogni rilascio.
+- Vengono create delle GitHub Release con note dettagliate.
 
 ---
-This document follows the [Contributor Covenant](https://www.contributor-covenant.org/) code of conduct.
+Questo documento segue il codice di condotta [Contributor Covenant](https://www.contributor-covenant.org/).
