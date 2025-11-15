@@ -1,0 +1,5 @@
+# Dipendenze di Node.js, da reinstallare
+/node_modules
+
+# File di sistema macOS
+.DS_Store
