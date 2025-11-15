@@ -80,7 +80,7 @@ let
     else true;
 
   # ✅ ENHANCEMENT: Generazione safe dei comandi ZFS
-  safeShellEscape = str: lib.replaceStrings ["'" "\\"] ["'\\'" "\\\\"] str;
+  safeShellEscape = str: lib.replaceStrings ["'" "\\"] ["'\''" "\\\\"] str;
 
 in {
   options.storage.zfs.pools = lib.mkOption {
@@ -155,7 +155,7 @@ in {
       wantedBy = [ "multi-user.target" ];
       after = [ "zfs-import.target" ];
       path = [ pkgs.zfs pkgs.jq ];
-      script = ''
+      script = '''
         # Enhanced logging with structured JSON
         log() {
           echo "$(date -Iseconds) | ZFS | $1" | systemd-cat -t "zfs-pool-management"
@@ -164,7 +164,7 @@ in {
         log "Starting ZFS pool management"
         
         # Import pools with error handling
-        ${lib.concatMapStrings (name: ''
+        ${lib.concatMapStrings (name: '''
           if ! zpool list ${name} >/dev/null 2>&1; then
             log "Importing pool: ${name}"
             if ! zpool import -N ${name} 2>/tmp/zpool-import.err; then
@@ -174,12 +174,12 @@ in {
           else
             log "Pool ${name} already imported"
           fi
-        '') (lib.attrNames config.storage.zfs.pools)}
+        ''') (lib.attrNames config.storage.zfs.pools)}
         
         # Apply runtime tuning with validation
         ${lib.concatMapStrings (name: cfg: let
           tuning = workloadTuningConfig.${cfg.workload};
-        in ''
+        in '''
           log "Applying tuning for pool ${name}"
           
           # Validate pool exists before applying settings
@@ -200,10 +200,10 @@ in {
           else
             log "ERROR: Pool ${name} does not exist"
           fi
-        '') config.storage.zfs.pools}
+        ''') config.storage.zfs.pools}
         
         log "ZFS pool management completed"
-      '';
+      '''
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
@@ -215,7 +215,7 @@ in {
     # ✅ ENHANCEMENT: Servizio di alert per salute ZFS
     systemd.services.zfs-health-alert = {
       description = "ZFS Health Alert Service";
-      script = ''
+      script = '''
         POOL_NAME="$1"
         MESSAGE="ZFS pool $POOL_NAME health status changed"
         logger -t "zfs-health" "$MESSAGE"
@@ -236,7 +236,7 @@ in {
               }
             }]
           }' 2>/dev/null || true
-      '';
+      '''
       serviceConfig = {
         Type = "oneshot";
         User = "root";
@@ -246,7 +246,7 @@ in {
     };
 
     documentation = {
-      description = ''
+      description = '''
         ZFS pool management module - CORRECTED AND OPTIMIZED
         
         ✅ **Corrections Applied**:
@@ -267,9 +267,9 @@ in {
         - Pool import error handling
         - Runtime setting validation
         - Health status monitoring
-      '';
+      '''
       
-      performance = ''
+      performance = '''
         **Performance Optimizations Applied**:
         
         🚀 **Memory Management**
@@ -285,7 +285,7 @@ in {
         - Automatic health monitoring
         - Prometheus alert integration
         - Structured logging for analysis
-      '';
+      '''
     };
   };
 }

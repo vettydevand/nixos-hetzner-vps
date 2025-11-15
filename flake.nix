@@ -23,7 +23,7 @@
               echo "  - setup: Interactive installation wizard"
               echo "  - test: Run tests"
               echo "  - docs: Build documentation"
-            '';
+            '''
           };
         };
 
@@ -38,10 +38,10 @@
             mkdocs
             python3
           ];
-          shellHook = ''
+          shellHook = '''
             echo "Development environment ready!"
             echo "Available tools: nixpkgs-fmt, shellcheck, markdownlint, mkdocs"
-          '';
+          '''
         };
       }
     ) // {

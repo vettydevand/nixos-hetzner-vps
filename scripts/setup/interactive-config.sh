@@ -1,91 +1,126 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # NixOS Hetzner VPS Interactive Configuration Wizard
-# This script guides users through creating a personalized NixOS configuration.
 
-# --- Configuration ---
-CONFIG_FILE="flake.nix"
-TEMPLATE_DIR="templates"
-BASE_TEMPLATE="$TEMPLATE_DIR/base.template.nix"
-
-# --- Colors and Styles ---
-C_BLUE="\033[1;34m"
-C_GREEN="\033[1;32m"
-C_RED="\033[1;31m"
-C_YELLOW="\033[1;33m"
-C_RESET="\033[0m"
+# --- Color Codes ---
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
 
 # --- Helper Functions ---
-function prompt() {
-  echo -e "${C_BLUE}==>${C_RESET} ${1}"
+function print_header() {
+    echo -e "${BLUE}====================================================="
+    echo -e " 🚀 NixOS Hetzner VPS Interactive Configuration 🚀"
+    echo -e "=====================================================${NC}"
+    echo
 }
 
-function success() {
-  echo -e "${C_GREEN} ✓ ${C_RESET} ${1}"
-}
-
-function error() {
-  echo -e "${C_RED} ✗ ${C_RESET} ${1}"
-  exit 1
-}
-
-function warn() {
-  echo -e "${C_YELLOW} ! ${C_RESET} ${1}"
+function print_step() {
+    echo -e "\n${YELLOW}➡️  $1${NC}"
 }
 
 function get_input() {
-  local prompt_text=$1
-  local default_value=$2
-  local user_input
-
-  read -p "$(prompt "${prompt_text} [${default_value}]: ")" user_input
-  echo "${user_input:-$default_value}"
+    local prompt="$1"
+    local default="$2"
+    local var_name="$3"
+    
+    read -p "$prompt [$default]: " input
+    eval $var_name='${input:-$default}'
 }
 
-# --- Main Logic ---
-function main() {
-  clear
-  echo -e "${C_BLUE}##################################################${C_RESET}"
-  echo -e "${C_BLUE}# NixOS Hetzner VPS Interactive Configuration  #${C_RESET}"
-  echo -e "${C_BLUE}##################################################${C_RESET}"
-  echo
-
-  # 1. Check for existing configuration
-  if [ -f "$CONFIG_FILE" ]; then
-    warn "An existing configuration file ($CONFIG_FILE) was found."
-    local overwrite
-    overwrite=$(get_input "Do you want to overwrite it? (yes/no)" "no")
-    if [[ "$overwrite" != "yes" ]]; then
-      error "Configuration cancelled."
+function confirm_action() {
+    read -p "${YELLOW}$1 [y/N]: ${NC}" confirm
+    if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+        echo -e "${RED}Aborted.${NC}"
+        exit 1
     fi
-  fi
-
-  # 2. Gather user input
-  local hostname=$(get_input "Enter the server hostname" "nixos-hetzner")
-  local username=$(get_input "Enter the admin username" "admin")
-  local timezone=$(get_input "Enter the timezone" "Europe/Berlin")
-  local ssh_key=$(get_input "Enter your public SSH key" "ssh-ed25519 ...")
-  local profile=$(get_input "Choose a profile (minimal, webserver, container-host)" "webserver")
-
-  # 3. Validate profile
-  local profile_template="$TEMPLATE_DIR/by-profile/${profile}.template.nix"
-  if [ ! -f "$profile_template" ]; then
-    error "Invalid profile selected. Please choose from 'minimal', 'webserver', or 'container-host'."
-  fi
-
-  # 4. Generate configuration
-  prompt "Generating configuration file..."
-  cp "$profile_template" "$CONFIG_FILE"
-
-  sed -i "s/your-hostname/$hostname/g" "$CONFIG_FILE"
-  sed -i "s/your-username/$username/g" "$CONFIG_FILE"
-  sed -i "s|your-timezone|$timezone|g" "$CONFIG_FILE"
-  sed -i "s|your-ssh-key|$ssh_key|g" "$CONFIG_FILE"
-
-  success "Configuration file '$CONFIG_FILE' created successfully!"
-  echo
-  warn "Please review the generated file before proceeding with the installation."
-  echo
 }
 
-main
+# --- Main Script ---
+clear
+print_header
+
+# --- User Input ---
+print_step "Gathering Configuration Details"
+
+get_input "Enter server hostname" "nixos-server" SERVER_HOSTNAME
+get_input "Enter admin username" "admin" ADMIN_USERNAME
+get_input "Enter your timezone" "Europe/Berlin" TIMEZONE
+
+echo -e "\n${BLUE}Please provide your SSH public key for admin access.${NC}"
+read -p "SSH Public Key: " SSH_PUBLIC_KEY
+
+if [ -z "$SSH_PUBLIC_KEY" ]; then
+    echo -e "${RED}SSH public key is required. Aborting.${NC}"
+    exit 1
+fi
+
+print_step "Choosing Deployment Profile"
+echo "Select a pre-configured profile for your server:"
+echo "  1. Minimal (basic secure server)"
+echo "  2. Web Server (Nginx, Caddy, SSL)"
+echo "  3. Container Host (Podman, Docker-compatible)"
+echo "  4. Database Server (PostgreSQL, MySQL)"
+echo "  5. Full Stack (all of the above)"
+read -p "Choose profile [1-5]: " profile_choice
+
+case $profile_choice in
+    1) PROFILE="minimal";;    
+    2) PROFILE="webserver";;    
+    3) PROFILE="container-host";;    
+    4) PROFILE="database-server";;    
+    5) PROFILE="full-stack";;    
+    *) echo -e "${RED}Invalid choice. Defaulting to minimal.${NC}"; PROFILE="minimal";;
+esac
+
+# --- Generate Configuration ---
+print_step "Generating NixOS Configuration"
+
+TEMPLATE_FILE="templates/by-profile/${PROFILE}.template.nix"
+if [ ! -f "$TEMPLATE_FILE" ]; then
+    echo -e "${RED}Template file not found: $TEMPLATE_FILE. Aborting.${NC}"
+    exit 1
+fi
+
+OUTPUT_FILE="flake.nix"
+
+cp "$TEMPLATE_FILE" "$OUTPUT_FILE"
+
+sed -i "s|__HOSTNAME__|$SERVER_HOSTNAME|g" "$OUTPUT_FILE"
+sed -i "s|__USERNAME__|$ADMIN_USERNAME|g" "$OUTPUT_FILE"
+sed -i "s|__TIMEZONE__|$TIMEZONE|g" "$OUTPUT_FILE"
+sed -i "s|__SSH_KEY__|$SSH_PUBLIC_KEY|g" "$OUTPUT_FILE"
+
+echo -e "${GREEN}✅ Configuration generated successfully at $OUTPUT_FILE${NC}"
+
+# --- Review and Confirm ---
+print_step "Review Your Configuration"
+
+cat $OUTPUT_FILE
+
+confirm_action "\nDoes this configuration look correct? Proceed with installation?"
+
+# --- Installation ---
+print_step "Starting Installation"
+
+# Check for Hetzner environment
+if ! grep -q "Hetzner" /sys/class/dmi/id/sys_vendor; then
+    echo -e "${YELLOW}⚠️  Warning: Not running on a Hetzner server. Installation might fail.${NC}"
+    confirm_action "Continue anyway?"
+fi
+
+echo -e "${BLUE}Running the quick installer... This may take some time.${NC}"
+./scripts/setup/quick-install.sh
+
+if [ $? -eq 0 ]; then
+    echo -e "\n${GREEN}🎉 Installation successful! 🎉${NC}"
+    echo -e "Your server will reboot shortly. You can then connect with:"
+    echo -e "  ${BLUE}ssh ${ADMIN_USERNAME}@${SERVER_HOSTNAME}${NC}"
+else
+    echo -e "\n${RED}❌ Installation failed. Please check the logs for errors.${NC}"
+    exit 1
+fi
+
+exit 0

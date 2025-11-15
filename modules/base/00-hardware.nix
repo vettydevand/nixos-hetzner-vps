@@ -83,7 +83,7 @@ in {
       # Optimize NVMe devices
       KERNEL=="nvme[0-9]*", ATTR{queue/scheduler}="${hardwareOptimizations.ioScheduler}"
       KERNEL=="sd[a-z]", ATTR{queue/scheduler}="${hardwareOptimizations.ioScheduler}"
-    '';
+    '''
 
     # Documentation for users
     assertions = [
@@ -95,7 +95,7 @@ in {
 
     # Self-documentation
     documentation = {
-      description = ''
+      description = '''
         Hardware detection and optimization module.
 
         Features:
@@ -111,7 +111,7 @@ in {
           hardware.hetzner.enable = true;
         }
         ```
-      '';
+      '''
       examples = {
         "hetzner-amd" = {
           hardware.enable = true;
