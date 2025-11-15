@@ -53,23 +53,38 @@
 
 ## 🚀 Quick Start
 
-### Usa questo Template
-[![Use this template](https://img.shields.io/badge/Use%20this%20template-2ea44f?logo=github&logoColor=white)](https://github.com/vettydevand/nixos-hetzner-vps/generate)
+### Opzione 1: Wizard Interattivo (Consigliato)
 
-### Installazione Rapida (Utenti Avanzati)
+Questo wizard ti guiderà attraverso la configurazione del tuo server passo dopo passo.
+
 ```bash
 # 1. Clona il repository
 git clone https://github.com/vettydevand/nixos-hetzner-vps
 cd nixos-hetzner-vps
 
-# 2. Scegli il tuo profilo
-# (Opzionale) Copia un template di profilo, ad esempio per un webserver
-# cp templates/by-profile/webserver.template.nix flake.nix
-# Modificalo con la tua configurazione
-
-# 3. Esegui l'installer rapido
-bash scripts/setup/quick-install.sh
+# 2. Esegui il wizard di configurazione
+./scripts/setup/interactive-config.sh
 ```
+
+### Opzione 2: Installazione Rapida (Utenti Avanzati)
+
+Questo script genera la configurazione ed esegue l'installazione in un unico comando.
+
+```bash
+# Esegui l'installer con i tuoi parametri
+./scripts/setup/quick-install.sh \
+  --hostname "my-server" \
+  --profile "full-stack" \
+  --ssh-key-file "~/.ssh/my_key.pub" \
+  --hetzner-token "YOUR_HETZNER_API_TOKEN"
+```
+
+##  profiles/ Profili Disponibili
+
+- **minimal**: Un sistema base NixOS con hardening di sicurezza. Ideale come punto di partenza.
+- **webserver**: Include Nginx e Certbot per un hosting web sicuro con certificati SSL automatici.
+- **container-host**: Configura Podman (compatibile con Docker) per eseguire applicazioni containerizzate.
+- **full-stack**: Un ambiente di sviluppo e produzione completo con web server, container e strumenti come Node.js e Go.
 
 ## 📚 Documentazione
 
