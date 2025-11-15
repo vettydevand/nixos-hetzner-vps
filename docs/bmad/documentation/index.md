@@ -8,6 +8,8 @@ Benvenuto nella documentazione di questo progetto basato su NixOS. Questa docume
 
 *   **[Architettura](./architecture.md):** Scopri i pattern architetturali dichiarativi e modulari utilizzati.
 
+*   **[Profili del Server](./profiles.md):** Scopri i profili pre-configurati per diversi casi d'uso.
+
 *   **[Analisi dell'Albero dei Sorgenti](./source-tree-analysis.md):** Esplora la struttura delle directory e dei file più importanti.
 
 *   **[Guida allo Sviluppo](./development-guide.md):** Trova le istruzioni per configurare, costruire e distribuire il progetto.
