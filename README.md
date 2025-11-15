@@ -7,7 +7,7 @@
 
 **Template di deployment NixOS pronto per la produzione per VPS Hetzner con ZFS + LUKS + Podman**
 
-✅ **Testato in produzione**  
+❌ **Testato in produzione**  
 ✅ **Installazione completamente automatizzata**  
 ✅ **Ottimizzato per ambienti cloud**  
 ✅ **Documentazione completa inclusa**  
